@@ -1,0 +1,70 @@
+.inventoryList, .itemDetails {
+  float: left;
+}
+.inventoryList {
+  width: 60%;
+  height:100%;
+  text-overflow: ellipsis;
+}
+.itemDetails {
+  width: 40%;
+}
+.inventoryItem {
+  padding: 5px 0px 5px 5px;
+  cursor: pointer;
+}
+.inventoryItem.selected {
+  color: black;
+  background-color:green;
+}
+.equipState {
+  display:inline-block;
+  border: black 5px solid;
+  height:0px;
+  width:0px;
+  margin-top:6px;
+}
+.inventoryItem.selected .equipState, .itemEquipped {
+  border-color: green;
+}
+.inventoryItem.selected .equipState.itemEquipped {
+  border-color:black;
+}
+.itemDetails div {
+  margin: 2px 5px 2px 5px;
+}
+.itemImg {
+  width:100%;
+  min-height:200px;
+}
+.itemImg img {
+  margin-left:10%;
+  width:60%;
+}
+.itemDetails .detailListing {
+  background-color: rgba(0,128,0,0.25);
+  display:inline-block;
+  width:60%;
+  margin-left:10%;
+  padding: 0 5px 0 5px
+}
+.itemDetails .detailListing.damage, .itemDetails .detailListing.ammo {
+  background-color: rgba(0,128,0,0.35);
+}
+.itemDetails .detailListing .detailDmgType {
+  float:right;
+}
+.itemDetails .detailListing .detailValue {
+  float:right;
+  width:40px;
+  text-align:end;
+}
+.itemDetails .detailDiffRating {
+  display:inline-block;
+  width:20%;
+}
+img.icon {
+  height:19px;
+  vertical-align:middle;
+  margin-right:5px;
+}

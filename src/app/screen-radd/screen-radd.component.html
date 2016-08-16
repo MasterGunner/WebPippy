@@ -1,0 +1,49 @@
+<nav class="secondary">
+  <span class="icon">&nbsp;</span>
+</nav>
+
+<div class="spacer">REMOTE ACCESS DIAGNOSTICS DISPLAY</div>
+
+<div class="screen">
+  <div class="quickPanel">
+    <b>STATUS</b>
+    <div class="quickStatus">
+      <div><b>Name: </b>{{ (playerInfo | async)?.PlayerName }}</div>
+      <div><b>Level: </b>{{ (playerInfo | async)?.XPLevel }}</div>
+      <div><b>Health: </b>{{ (playerInfo | async)?.CurrHP | number:'2.0-0' }}/{{ (playerInfo | async)?.MaxHP  | number:'2.0-0' }}</div>
+      <div><b>Caps: </b>{{ (playerInfo | async)?.Caps }}</div>
+      <div><b>Stimpacks: </b>{{ (healthStats | async)?.RadawayCount }}</div>
+      <div><b>Radaway: </b>{{ (healthStats | async)?.StimpakCount }}</div>
+    </div>
+  </div>
+  <div class="quickPanel">
+    <b>QUICK ITEMS</b>
+    <div class="quickItems">
+      <div class="quickItem" *ngFor="let item of weapons | async | firebaseSort:'favorite'">
+        <span *ngIf="isFavourite(item)">{{ item.favorite + 1 }}. {{ item.text }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="quickPanel">
+    <b>AVAILABLE CHEMS</b>
+    <div class="quickChems">
+      <div class="chemItem" *ngFor="let item of aid | async | firebaseSort:'text'">
+        <span *ngIf="isChem(item)">{{ item.text }}: {{ item.count }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="quickPanel">
+    <b>AVAILABLE ALCOHOL</b>
+    <div class="quickAlcohol">
+      <div class="alcoholItem" *ngFor="let item of aid | async | firebaseSort:'text'">
+        <span *ngIf="isAlcohol(item)">{{ item.text }}: {{ item.count }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="section" style="width:100%;">
+    <span>&nbsp;</span>
+  </div>
+</div>

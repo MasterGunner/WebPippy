@@ -1,0 +1,24 @@
+<nav class="primary">
+  <span class="icon"></span>
+  <a [class.navSelected]="selectedNav == 'radd'" (click)="selectedNav = 'radd'">RADD</a>
+  <a [class.navSelected]="selectedNav == 'stat'" (click)="selectedNav = 'stat'">STAT</a>
+  <a [class.navSelected]="selectedNav == 'inv'" (click)="selectedNav = 'inv'">INV</a>
+  <a [class.navSelected]="selectedNav == 'data'" (click)="selectedNav = 'data'">DATA</a>
+  <a [class.navSelected]="selectedNav == 'map'" (click)="selectedNav = 'map'">MAP</a>
+  <a [class.navSelected]="selectedNav == 'radio'" (click)="selectedNav = 'radio'">RADIO</a>
+  <span class="icon"></span>
+</nav>
+<div id="MainScreen">
+  <app-screen-radd *ngIf="selectedNav == 'radd'"></app-screen-radd>
+  <app-screen-status *ngIf="selectedNav == 'stat'"></app-screen-status>
+  <app-screen-inventory *ngIf="selectedNav == 'inv'"></app-screen-inventory>
+  <app-screen-data *ngIf="selectedNav == 'data'"></app-screen-data>
+  <app-screen-map *ngIf="selectedNav == 'map'"></app-screen-map>
+  <app-screen-radio *ngIf="selectedNav == 'radio'"></app-screen-radio>
+</div>
+
+<!--  <ul *ngFor="let item of playerInfo | async">
+    <li class="text">
+      {{item.$key}}: {{item.$value}}
+    </li>
+  </ul>-->

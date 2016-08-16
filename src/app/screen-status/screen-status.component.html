@@ -1,0 +1,105 @@
+<nav class="secondary">
+  <span class="icon"></span>
+  <a [class.navSelected]="selectedNav == 'status'" (click)="selectedNav = 'status'">STATUS</a>
+  <a [class.navSelected]="selectedNav == 'special'" (click)="selectedNav = 'special'">SPECIAL</a>
+  <a [class.navSelected]="selectedNav == 'perks'" (click)="selectedNav = 'perks'; enableScrollbar();">PERKS</a>
+  <span class="icon"></span>
+</nav>
+
+<div class="spacer"></div>
+
+<div class="screen">
+  <div *ngIf="selectedNav == 'status'" class="status">
+    <div class="bodyHealth">
+      <div class="appendageHealth">
+        <div class="headHealth"><b>Head: </b>{{ (healthStats | async)?.HeadCondition }}</div>
+      </div>
+      <div class="appendageHealth">
+        <div class="armHealth"><b>Left Arm: </b>{{ (healthStats | async)?.LArmCondition }}</div>
+        <div class="armHealth"><b>Right Arm: </b>{{ (healthStats | async)?.RArmCondition }}</div>
+      </div>
+      <div class="appendageHealth">
+        <div class="legHealth"><b>Left Leg: </b>{{ (healthStats | async)?.LLegCondition }}</div>
+        <div class="legHealth"><b>Right Leg: </b>{{ (healthStats | async)?.RLegCondition }}</div>
+      </div>
+      <div class="appendageHealth">
+        <div class="torsoHealth"><b>Torso: </b>{{ (healthStats | async)?.TorsoCondition }}</div>
+      </div>
+    </div>
+
+    <div class="equipEffects">
+      <div class="equippedWeapon icon"><img src="/art/icons/firepower.svg" /></div>
+      <div *ngFor="let damage of (playerInfo | async)?.TotalDamages">
+        <div *ngIf="damage.Value > 0" class="equippedWeapon detail">
+          <div class="miniIcon"><img src="/art/icons/dmg-normal.svg" /></div> <!--{{ damage.type }}-->
+          <div>{{ damage.Value | number:'1.0-0' }}</div>
+        </div>
+      </div>
+      &nbsp;
+      <div class="equippedArmour icon"><img src="/art/icons/armour.svg" /></div>
+      <div *ngFor="let armour of (playerInfo | async)?.TotalResists">
+        <div *ngIf="armour.Value > 0" class="equippedArmour detail">
+          <div class="miniIcon"><img src="/art/icons/dmg-resist.svg" /></div> <!--{{ armour.type }}-->
+          <div>{{ armour.Value | number:'1.0-0' }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="playerName" style="margin-bottom:25px;">{{ (playerInfo | async)?.PlayerName }}</div>
+
+    <div class='healing'>
+      <div>STIMPAK ({{ (healthStats | async)?.RadawayCount }})</div>
+      <div>RADAWAY ({{ (healthStats | async)?.StimpakCount }})</div>
+    </div>
+  </div>
+
+  <div *ngIf="selectedNav == 'special'" class="specials">
+    <div class="itemList specialList">
+      <div class="item" *ngFor="let special of specials | async" [class.selected]="special == selectedSpecial" (click)="selectedSpecial = special">
+        <!--<span class="specialName">{{ special.Name }}</span><span class="specialValue">{{ special.Value + special.Modifier }}</span> Ekim says the returned Value includes the modifier already.-->
+        <span class="itemName">{{ special.Name }}</span><span class="itemValue">{{ special.Value }}</span>
+      </div>
+    </div>
+    <div class="itemDetails" *ngIf="selectedSpecial">
+      <div class="itemImg">
+        <video autoplay loop poster="/art/icons/ImgNotFound.png" [src]="'/art/VaultBoys/SPECIAL/' + selectedSpecial.Name + '.webm'"></video>
+      </div>
+      <div class="itemSelect">{{ selectedSpecial.Description }}</div>
+    </div>
+  </div>
+
+  <div *ngIf="selectedNav == 'perks'" class="perks">
+    <div class="itemList perksList">
+      <div *ngFor="let perk of perks | async | firebaseSort:'text'">
+        <div class="item" *ngIf="perk.ListVisible" [class.selected]="perk == selectedPerk" (click)="selectedPerk = perk">
+          <div class="itemName">{{perk.Name}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="itemDetails" *ngIf="selectedPerk">
+      <div class="itemImg">
+        <video autoplay loop poster="/art/icons/ImgNotFound.png" [src]="'/art/VaultBoys/PERKS/' + selectedPerk.Name + '.webm'"></video>
+      </div>
+      <div class="itemSelect">
+        <div class="starRank">{{ "★".repeat(selectedPerk.Rank) }}{{ "☆".repeat(selectedPerk.MaxRank - selectedPerk.Rank) }}</div>
+        <div>{{ selectedPerk.Perks[selectedPerk.Rank - 1].Description }}</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer" *ngIf="(playerInfo | async)">
+  <div class="section" style="width:205px;">
+    <span>HP {{ (playerInfo | async)?.CurrHP | number:'2.0-0' }}/{{ (playerInfo | async)?.MaxHP  | number:'2.0-0' }}</span>
+  </div>
+  <div class="section" style="width:420px;">
+    <span>LEVEL {{ (playerInfo | async)?.XPLevel }}</span>
+    <div class="lvlProgress" style="width:330px;" 
+      [style.border-left-width.px]="330*(playerInfo | async)?.XPProgressPct" 
+      [style.padding-right.px]="330 - 330*(playerInfo | async)?.XPProgressPct" ></div>
+  </div>
+  <div class="section" style="width:205px;text-align:right;">
+    <span>AP {{ (playerInfo | async)?.CurrAP | number:'2.0-0' }} / {{ (playerInfo | async)?.MaxAP  | number:'2.0-0' }}</span>
+  </div>
+</div>

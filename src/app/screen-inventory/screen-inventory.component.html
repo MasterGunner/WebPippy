@@ -1,0 +1,75 @@
+<nav class="secondary">
+  <span class="icon"></span>
+  <a [class.navSelected]="selectedNav == 'weapons'" (click)="changeInv('weapons')">WEAPONS</a>
+  <a [class.navSelected]="selectedNav == 'apparel'" (click)="changeInv('apparel')">APPAREL</a>
+  <a [class.navSelected]="selectedNav == 'aid'" (click)="changeInv('aid')">AID</a>
+  <a [class.navSelected]="selectedNav == 'misc'" (click)="changeInv('misc')">MISC</a>
+  <a [class.navSelected]="selectedNav == 'junk'" (click)="changeInv('junk')">JUNK</a>
+  <a [class.navSelected]="selectedNav == 'mods'" (click)="changeInv('mods')">MODS</a>
+  <a [class.navSelected]="selectedNav == 'ammo'" (click)="changeInv('ammo')">AMMO</a>
+  <span class="icon"></span>
+</nav>
+
+<div class="spacer"></div>
+
+<div class="screen">
+  <div class="inventoryList">
+    <div class="inventoryItem" *ngFor="let item of inventory | async | firebaseSort:'text'"
+      [class.selected]="item == selectedItem" (click)="selectItem(item)">
+      <div class="equipState" [class.itemEquipped]="item.equipState != 0"></div>
+      <span class="itemName">{{item.text}}</span>
+    </div>
+  </div>
+  
+  <div class="itemDetails" *ngIf="selectedItem">
+    <div class="itemImg">
+      <img [src]="itemImage" />
+    </div>
+    <div class="ItemSelect" *ngIf="itemCard">
+      <div *ngIf="itemCard.description">{{ itemCard.description.text }}</div>
+
+      <div *ngFor="let detail of itemCard.attributes">
+        <span class="detailListing damage" *ngIf="detail.damageType && detail.damageType != 10">
+          <span class="detailType">{{ detail.text }}</span>
+          <span class="detailValue">{{ detail.Value | number:'1.0-0' }}</span>
+          <span class="detailDmgType" *ngIf="detail.damageType"><img [src]="detail.img" class="icon"/></span>
+        </span>
+
+        <span class="detailListing ammo" *ngIf="detail.damageType == 10">
+          <span class="detailType"><img src="/art/icons/ammo.svg" class="icon"/>{{ detail.text }}</span>
+          <span class="detailValue">{{ detail.Value | number:'1.0-0' }}</span>
+        </span>
+
+        <span class="detailListing" *ngIf="!detail.damageType">
+          <span class="detailType">{{ detail.text }}</span>
+          <span class="detailDmgType" *ngIf="detail.damageType"> ({{ detail.damageType }})</span>
+          <span class="detailValue">
+            <span *ngIf="detail.Value >= 0">
+              <span *ngIf="detail.text != 'Weight'">{{ detail.Value | number:'1.0-0' }}</span>
+              <span *ngIf="detail.text == 'Weight'">{{ detail.Value | number:'1.0-1' }}</span>
+            </span>
+            <span *ngIf="!(detail.Value >= 0)">{{ detail.Value }}</span> <!-- if value is not a number -->
+          </span>
+        </span>
+
+        <span class="detailDiffRating">
+          <span *ngIf="detail.diffRating > 0">{{ "+".repeat(detail.diffRating) }}</span>
+          <span *ngIf="detail.diffRating < 0">{{ "-".repeat(detail.diffRating*-1) }}</span>
+        </span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="section" style="width:205px;">
+    <span><img src="/art/icons/weight.svg"  class="icon"/>{{ (playerInfo | async)?.CurrWeight | number:'2.0-0' }}/{{ (playerInfo | async)?.MaxWeight  | number:'1.0-0' }}</span>
+  </div>
+  <div class="section" style="width:205px;">
+    <span><img src="/art/icons/caps.svg"  class="icon"/>{{ (playerInfo | async)?.Caps }}</span>
+  </div>
+  <div class="section" style="width:420px;">
+    <span style="float:right"><img src="/art/icons/firepower.svg"  class="icon"/><img src="/art/icons/dmg-normal.svg"  class="icon"/></span>
+  </div>
+</div>

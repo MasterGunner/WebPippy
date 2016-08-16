@@ -1,0 +1,88 @@
+<nav class="secondary">
+  <span class="icon"></span>
+  <a [class.navSelected]="selectedNav == 'quests'" (click)="selectedNav = 'quests'">QUESTS</a>
+  <a [class.navSelected]="selectedNav == 'workshops'" (click)="selectedNav = 'workshops'">WORKSHOPS</a>
+  <a [class.navSelected]="selectedNav == 'stats'" (click)="selectedNav = 'stats'">STATS</a>
+  <span class="icon"></span>
+</nav>
+
+<div class="spacer"></div>
+
+<div class="screen">
+  <div class="items">
+    <div *ngIf="selectedNav == 'quests'">
+      <div class="questList">
+        <div class="item" *ngFor="let quest of quests | async"
+          [class.selected]="quest == selectedQuest" (click)="selectedQuest = quest">
+          <div class="activeState" [class.itemActive]="quest.active == true"></div>
+          <span class="itemName">{{quest.text}}</span>
+        </div>
+      </div>
+    </div>
+    
+    <div *ngIf="selectedNav == 'workshops'">
+      <div class="workshopList">
+        <div class="item" *ngFor="let workshop of workshops | async"
+          [class.selected]="workshop == selectedWorkshop" (click)="selectedWorkshop = workshop">
+          <div class="activeState"></div>
+          <span class="itemName">{{workshop.text}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="selectedNav == 'stats'">
+      <div class="logList">
+        <div class="item" *ngFor="let log of logs | async"
+          [class.selected]="log == selectedLog" (click)="selectedLog = log">
+          <div class="activeState"></div>
+          <span class="itemName">{{log.text.substring(1)}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="itemDetails">
+    <div *ngIf="selectedNav == 'quests'">
+      <div class="questDetails" *ngIf="selectedQuest">
+        <div class="itemImg">Image not available.</div>
+        <div class="itemSelect">
+          {{ selectedQuest.desc }}
+          <ul>
+            <li *ngFor="let objective of selectedQuest.objectives" 
+              [class.completed]="objective.completed==true || objective.failed==true">
+              {{ objective.text }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="selectedNav == 'workshops'">
+      <div class="itemImg">Image not available.</div>
+      <div class="itemSelect">Details not available.</div>
+    </div>
+
+    <div *ngIf="selectedNav == 'stats'">
+      <div class="logDetails" *ngIf="selectedLog">
+        <div class="itemSelect">
+          <div *ngFor="let stat of selectedLog.statArray">
+              <span class="detailListing" *ngIf="stat.showIfZero || stat.Value > 0">
+                <span class="detailType">{{ stat.text }}</span>
+                <span class="detailValue">{{ stat.Value }}</span>
+              </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="section" style="width:205px;">
+    <span>{{ (playerInfo | async)?.DateMonth }}.{{ (playerInfo | async)?.DateDay }}.2{{ (playerInfo | async)?.DateYear }}</span>
+  </div>
+  <div class="section" style="width:637px;">
+    <span>{{ convertTime((playerInfo | async)?.TimeHour) }}</span>
+  </div>
+</div>

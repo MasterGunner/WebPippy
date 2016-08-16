@@ -1,0 +1,19 @@
+<nav class="secondary">
+  <span class="icon">&nbsp;</span>
+</nav>
+
+<div class="spacer">Error Accessing Map.</div>
+
+<div class="screen"></div>
+
+<div class="footer">
+  <div class="section" style="width:205px;">
+    <span>{{ (playerInfo | async)?.DateMonth }}.{{ (playerInfo | async)?.DateDay }}.2{{ (playerInfo | async)?.DateYear }}</span>
+  </div>
+  <div class="section" style="width:205px;">
+    <span>{{ convertTime((playerInfo | async)?.TimeHour) }}</span>
+  </div>
+  <div class="section" style="width:420px;">
+    <span>&nbsp;</span>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+.spacer {
+  text-align:center;
+  font-weight:bold;
+}
+.screen {
+  display:flex;
+  justify-content:space-between;
+}
+.quickPanel {
+  flex-grow: 1;
+  flex-basis: 0;
+  margin: 0 5px 0 5px
+}
+.quickPanel > div {
+  height:95%;
+}

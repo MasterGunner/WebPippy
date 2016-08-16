@@ -1,0 +1,61 @@
+body {
+  background-color: black;
+  color: green;
+  font-family: consolas, Arial, Helvetica, sans-serif;
+  font-size:large;
+  display: flex;
+  justify-content: center;
+}
+
+#container {
+  border: green 1px solid;
+  width: 960px;
+  height:720px;
+}
+.mCS-fallout.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar { 
+  background-color: green; 
+}
+
+nav {
+  display: flex;
+  font-size: x-large;
+}
+nav a {
+  cursor:pointer;
+}
+nav .navSelected {
+  color: lightgreen;
+}
+
+nav.primary {
+  width:90%;
+  margin: 0 auto 0 auto;
+  justify-content: space-around;
+  font-weight: bold;
+  border-bottom: green 1px solid;
+}
+
+nav.secondary {
+  justify-content: flex-start;
+}
+nav.secondary a{
+  margin-right: 20px;
+}
+
+div.spacer {
+  height: 35px;
+}
+
+div.screen {
+  height:575px;
+}
+
+div.footer {
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+}
+div.footer .section {
+  background-color:rgba(0,128,0,0.25);
+  padding: 5px;
+}

@@ -1,0 +1,25 @@
+<nav class="secondary">
+  <span class="icon">&nbsp;</span>
+</nav>
+
+<div class="spacer"></div>
+
+<div class="screen">
+  <div class="radioList">
+    <div class="radioItem" *ngFor="let station of radio | async"
+      [class.selected]="station == selectedStation" (click)="selectedStation = station">
+      <div class="activeState" [class.stationActive]="station.active == true"></div>
+      <span class="stationName">{{station.text}}</span>
+    </div>
+  </div>
+  <div class="stationDetails" *ngIf="selectedStation">
+    <div class="stationImg">
+      <img src="/art/icons/frequency-graph.svg" style="float:right;" />
+      <div style="clear:both;">Frequency Analysis Not Available</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="section" style="width:100%;">&nbsp;</div>
+</div>
